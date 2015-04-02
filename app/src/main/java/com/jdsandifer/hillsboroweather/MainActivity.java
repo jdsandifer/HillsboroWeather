@@ -46,6 +46,8 @@ public class MainActivity extends ActionBarActivity {
 
                     if (response.isSuccessful()) {
                         Log.v(TAG, response.body().string());
+                    } else {
+                        alertUserAboutError();
                     }
                 } catch (IOException e) {
                     Log.e(TAG, "Exception caught: ", e);
@@ -54,6 +56,12 @@ public class MainActivity extends ActionBarActivity {
         });
 
         Log.d(TAG, "Main code is running");
+    }
+
+    private void alertUserAboutError() {
+        AlertDialogFragment dialog = new AlertDialogFragment();
+        dialog.show(getFragmentManager(), "error_dialog");
+
     }
 
 
