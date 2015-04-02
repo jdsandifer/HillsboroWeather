@@ -1,11 +1,18 @@
 package com.jdsandifer.hillsboroweather;
 
+import android.app.DialogFragment;
 import android.app.DownloadManager;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
@@ -30,38 +37,53 @@ public class MainActivity extends ActionBarActivity {
         String forecastURL = "https://api.forecast.io/forecast/" + apiKey + "/"
                 + latitude + "," + longitude;
 
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url(forecastURL).build();
+        if (isNetworkAvailable()) {
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder().url(forecastURL).build();
 
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Request request, IOException e) {
 
-            }
-
-            @Override
-            public void onResponse(Response response) throws IOException {
-                try {
-
-                    if (response.isSuccessful()) {
-                        Log.v(TAG, response.body().string());
-                    } else {
-                        alertUserAboutError();
-                    }
-                } catch (IOException e) {
-                    Log.e(TAG, "Exception caught: ", e);
                 }
-            }
-        });
+
+                @Override
+                public void onResponse(Response response) throws IOException {
+                    try {
+
+                        if (response.isSuccessful()) {
+                            Log.v(TAG, response.body().string());
+                        } else {
+                            alertUserAboutError(getString(R.string.error_message));
+                        }
+                    } catch (IOException e) {
+                        Log.e(TAG, "Exception caught: ", e);
+                    }
+                }
+            });
+        } else {
+            alertUserAboutError(getString(R.string.network_unavailable_message));
+        }
 
         Log.d(TAG, "Main code is running");
     }
 
-    private void alertUserAboutError() {
-        AlertDialogFragment dialog = new AlertDialogFragment();
-        dialog.show(getFragmentManager(), "error_dialog");
+    private boolean isNetworkAvailable() {
+        ConnectivityManager manager = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        boolean isAvailable = false;
+        if (networkInfo != null && networkInfo.isConnected()) {
+            isAvailable = true;
+        }
+        return isAvailable;
+    }
 
+    private void alertUserAboutError(String message) {
+        // Create and show the dialog.
+        DialogFragment alertFragment = AlertDialogFragment.newInstance(message);
+        alertFragment.show(getFragmentManager(), "dialog");
     }
 
 
