@@ -102,7 +102,7 @@ public class MainActivity extends ActionBarActivity {
 
                     try {
                         String jsonData = response.body().string();
-                        Log.v(TAG, jsonData);
+                        //Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
                             mCurrentWeather = getCurrentDetails(jsonData);
                             runOnUiThread(new Runnable() {
@@ -135,7 +135,7 @@ public class MainActivity extends ActionBarActivity {
                 mProgressBar.setVisibility(View.INVISIBLE);
                 mRefreshImageView.setVisibility(View.VISIBLE);
             }
-        }
+    }
 
 
     private void updateDisplay() {

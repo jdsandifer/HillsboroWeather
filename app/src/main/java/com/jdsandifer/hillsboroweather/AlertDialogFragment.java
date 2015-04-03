@@ -6,15 +6,15 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
 
-/**
+/*
  * Created by j.d. sandifer on 4/2/2015.
  */
 public class AlertDialogFragment extends DialogFragment {
 
     String mMessage;
 
-    /**
-     * Create a new instance of MyDialogFragment, providing "message"
+    /*
+     * Create a new instance of AlertDialogFragment, providing "message"
      * as an argument.
      */
     public static AlertDialogFragment newInstance(String message) {

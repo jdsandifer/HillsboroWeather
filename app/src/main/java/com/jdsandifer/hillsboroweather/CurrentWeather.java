@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-/**
+/*
  * Created by j.d. sandifer on 4/2/2015.
  */
 public class CurrentWeather {
@@ -33,7 +33,7 @@ public class CurrentWeather {
     }
 
     public int getIconId() {
-        //account for all possiblities
+        //Account for all icon possiblities and have default case
         int iconId = R.mipmap.clear_day;
 
         if (mIcon.equals("clear-day")) {
