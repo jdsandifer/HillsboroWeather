@@ -57,6 +57,8 @@ public class CurrentWeather {
         } else if (mIcon.equals("partly-cloudy-night")) {
             iconId = R.mipmap.cloudy_night;
         }
+
+        return iconId;
     }
 
     public long getTime() {
