@@ -115,9 +115,7 @@ public class MainActivity extends ActionBarActivity {
                         } else {
                             alertUserAboutError(getString(R.string.error_message));
                         }
-                    } catch (IOException e) {
-                        Log.e(TAG, "Exception caught: ", e);
-                    } catch (JSONException e) {
+                    } catch (IOException | JSONException e) {
                         Log.e(TAG, "Exception caught: ", e);
                     }
                 }
@@ -145,7 +143,8 @@ public class MainActivity extends ActionBarActivity {
         mPrecipValue.setText(mCurrentWeather.getPrecipChance() + "%");
         mSummaryLabel.setText(mCurrentWeather.getSummary());
 
-        Drawable drawable = getResources().getDrawable(mCurrentWeather.getIconId());
+        @SuppressWarnings("deprecation") Drawable drawable = getResources()
+                .getDrawable(mCurrentWeather.getIconId());
         mIconImageView.setImageDrawable(drawable);
     }
 

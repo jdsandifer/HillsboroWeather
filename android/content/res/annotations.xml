@@ -1,3 +1,4 @@
+<!--suppress XmlUnboundNsPrefix -->
 <root>
     <item name='android.content.res.Resources android.graphics.drawable.Drawable getDrawable(int)'>
         <annotation name='java.lang.annotation.Deprecated'/>

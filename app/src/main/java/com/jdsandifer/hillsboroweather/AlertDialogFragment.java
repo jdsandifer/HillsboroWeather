@@ -11,7 +11,7 @@ import android.os.Bundle;
  */
 public class AlertDialogFragment extends DialogFragment {
 
-    String mMessage;
+    private String mMessage;
 
     /*
      * Create a new instance of AlertDialogFragment, providing "message"

@@ -2,12 +2,13 @@ package com.jdsandifer.hillsboroweather;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /*
  * Created by j.d. sandifer on 4/2/2015.
  */
-public class CurrentWeather {
+class CurrentWeather {
     private String mIcon;
     private long mTime;
     private double mTemperature;
@@ -16,7 +17,7 @@ public class CurrentWeather {
     private String mSummary;
     private String mTimezone;
 
-    public String getTimezone() {
+    String getTimezone() {
         return mTimezone;
     }
 
@@ -33,45 +34,55 @@ public class CurrentWeather {
     }
 
     public int getIconId() {
-        //Account for all icon possiblities and have default case
+        //Account for all icon possibilities and have default case
         int iconId = R.mipmap.clear_day;
 
-        if (mIcon.equals("clear-day")) {
-            iconId = R.mipmap.clear_day;
-        } else if (mIcon.equals("clear-night")) {
-            iconId = R.mipmap.clear_night;
-        } else if (mIcon.equals("rain")) {
-            iconId = R.mipmap.rain;
-        } else if (mIcon.equals("snow")) {
-            iconId = R.mipmap.snow;
-        } else if (mIcon.equals("sleet")) {
-            iconId = R.mipmap.sleet;
-        } else if (mIcon.equals("wind")) {
-            iconId = R.mipmap.wind;
-        } else if (mIcon.equals("fog")) {
-            iconId = R.mipmap.fog;
-        } else if (mIcon.equals("cloudy")) {
-            iconId = R.mipmap.cloudy;
-        } else if (mIcon.equals("partly-cloudy-day")) {
-            iconId = R.mipmap.partly_cloudy;
-        } else if (mIcon.equals("partly-cloudy-night")) {
-            iconId = R.mipmap.cloudy_night;
+        switch (mIcon) {
+            case "clear-day":
+                iconId = R.mipmap.sunny;
+                break;
+            case "clear-night":
+                iconId = R.mipmap.clear_night;
+                break;
+            case "rain":
+                iconId = R.mipmap.rain;
+                break;
+            case "snow":
+                iconId = R.mipmap.snow;
+                break;
+            case "sleet":
+                iconId = R.mipmap.sleet;
+                break;
+            case "wind":
+                iconId = R.mipmap.wind;
+                break;
+            case "fog":
+                iconId = R.mipmap.fog;
+                break;
+            case "cloudy":
+                iconId = R.mipmap.cloudy;
+                break;
+            case "partly-cloudy-day":
+                iconId = R.mipmap.partly_cloudy;
+                break;
+            case "partly-cloudy-night":
+                iconId = R.mipmap.cloudy_night;
+                break;
         }
 
         return iconId;
     }
 
-    public long getTime() {
+    long getTime() {
         return mTime;
     }
 
     public String getFormattedTime() {
-        SimpleDateFormat formatter = new SimpleDateFormat("h:mm a");
+        SimpleDateFormat formatter = new SimpleDateFormat("h:mm a", Locale.US);
         formatter.setTimeZone(TimeZone.getTimeZone(getTimezone()));
         Date dateTime = new Date(getTime()*1000);
-        String timeString = formatter.format(dateTime);
 
-        return timeString;
+        return formatter.format(dateTime);
     }
 
     public void setTime(long time) {
