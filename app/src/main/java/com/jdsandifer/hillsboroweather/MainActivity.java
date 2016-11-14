@@ -51,6 +51,7 @@ public class MainActivity extends ActionBarActivity {
 
         mProgressBar.setVisibility(View.INVISIBLE);
 
+        // Location of the Hillsboro, OR airport (HIO).
         final double latitude = 45.4998;
         final double longitude = -122.915;
 
@@ -62,14 +63,12 @@ public class MainActivity extends ActionBarActivity {
         });
 
         getForecast(latitude, longitude);
-
-        Log.d(TAG, "Main UI code is running...");
     }
 
     private void getForecast(double latitude, double longitude) {
-        String apiKey = "30d0f2b692364216d772e7375f09f077";
+        String apiKey = getResources().getString(R.string.api_key);
 
-        String forecastURL = "https://api.forecast.io/forecast/" + apiKey + "/"
+        String forecastURL = "https://api.darksky.net/forecast/" + apiKey + "/"
                 + latitude + "," + longitude;
 
         if (isNetworkAvailable()) {
@@ -102,7 +101,7 @@ public class MainActivity extends ActionBarActivity {
 
                     try {
                         String jsonData = response.body().string();
-                        //Log.v(TAG, jsonData);
+
                         if (response.isSuccessful()) {
                             mCurrentWeather = getCurrentDetails(jsonData);
                             runOnUiThread(new Runnable() {
@@ -138,7 +137,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void updateDisplay() {
         mTemperatureLabel.setText(mCurrentWeather.getTemperature() + "");
-        mTimeLabel.setText("At " + mCurrentWeather.getFormattedTime() + " it will be");
+        mTimeLabel.setText("At " + mCurrentWeather.getFormattedTime() + " it was");
         mHumidityValue.setText(mCurrentWeather.getHumidity() + "");
         mPrecipValue.setText(mCurrentWeather.getPrecipChance() + "%");
         mSummaryLabel.setText(mCurrentWeather.getSummary());
@@ -151,7 +150,6 @@ public class MainActivity extends ActionBarActivity {
     private CurrentWeather getCurrentDetails(String jsonData) throws JSONException {
         JSONObject forecast = new JSONObject(jsonData);
         String timezone = forecast.getString("timezone");
-        Log.i(TAG, "From JSON: " + timezone);
 
         JSONObject currently = forecast.getJSONObject("currently");
 
@@ -163,8 +161,6 @@ public class MainActivity extends ActionBarActivity {
         currentWeather.setSummary(currently.getString("summary"));
         currentWeather.setTemperature(currently.getDouble("temperature"));
         currentWeather.setTimezone(timezone);
-
-        Log.d(TAG, currentWeather.getFormattedTime());
 
         return currentWeather;
     }
